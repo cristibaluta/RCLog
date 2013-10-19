@@ -24,3 +24,10 @@ Add the RCLog classes to your project then import it once in the .pch file
 
 	#import "RCLog.h"
 	
+
+Sample output
+=============
+
+	RCLog(@"this is a string");
+	
+	MyClass.m:1: this is a string
