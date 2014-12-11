@@ -9,12 +9,18 @@
 
 @implementation RCLog
 
-+ (void)traceFile:(NSString*)file line:(int)line message:(NSString*)message {
+static BOOL _tracesDisabled = NO;
+
++ (void)traceFile:(NSString *)file line:(int)line message:(NSString *)message {
 	
-	printf("%s:%s: %s\n",
+	if (!_tracesDisabled) printf("%s:%s: %s\n",
 		   [file cStringUsingEncoding:NSStringEncodingConversionAllowLossy],
 		   [[NSString stringWithFormat:@"%i", line] cStringUsingEncoding:NSStringEncodingConversionAllowLossy],
 		   [message cStringUsingEncoding:NSStringEncodingConversionAllowLossy]);
+}
+
++ (void)disableTraces {
+	_tracesDisabled = YES;
 }
 
 @end

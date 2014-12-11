@@ -27,6 +27,7 @@ do { \
 
 @interface RCLog : NSObject
 
-+ (void)traceFile:(NSString*)file line:(int)line message:(NSString*)message;
++ (void)disableTraces;
++ (void)traceFile:(NSString *)file line:(int)line message:(NSString *)message;
 
 @end
