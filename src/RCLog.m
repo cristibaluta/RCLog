@@ -10,19 +10,16 @@
 @implementation RCLog
 
 static BOOL _tracesDisabled = NO;
-static NSMutableArray *ALLOW_TRACES_FROM = nil;
-static NSString *lastTracedMethod = @"";
+static NSMutableArray *allowedClasses = nil;
+static NSString *lastTracedMethod = nil;
 
 + (void)traceFile:(NSString *)file method:(NSString *)methodName line:(int)line message:(NSString *)message {
 	
-    if (ALLOW_TRACES_FROM == nil) {
-        ALLOW_TRACES_FROM = [NSMutableArray array];
-    }
-    if ( ALLOW_TRACES_FROM.count == 0 ) {
+    if ( allowedClasses == nil || allowedClasses.count == 0 ) {
         [self _traceFile:file method:methodName line:line message:message];
     }
-    else for (NSString *c in ALLOW_TRACES_FROM) {
-        if (c == file) {
+    else for (NSString *c in allowedClasses) {
+        if ([c isEqualToString:file]) {
             [self _traceFile:file method:methodName line:line message:message];
         }
     }
@@ -30,15 +27,15 @@ static NSString *lastTracedMethod = @"";
 
 + (void)_traceFile:(NSString *)file method:(NSString *)methodName line:(int)line message:(NSString *)message {
     
-    NSString *newLineIn = [lastTracedMethod isEqualToString:methodName] ? @"" : @"\n---> ";
-    NSString *newLineOut = [lastTracedMethod isEqualToString:methodName] ? @"" : @"\n\n";
-    
-//    haxe.Firebug.trace ( inf.methodName + " : " + newLineIn + Std.string(v) + newLineOut, inf );
+    NSString *prefix = (lastTracedMethod == nil || [lastTracedMethod isEqualToString:methodName]) ? @"" : @"\n";
+	
     if (!_tracesDisabled) {
-        printf("%s:%s: %s\n",
+        printf ("%s%s:%s: %s\n",
+			   [prefix cStringUsingEncoding:NSStringEncodingConversionAllowLossy],
                [file cStringUsingEncoding:NSStringEncodingConversionAllowLossy],
                [[NSString stringWithFormat:@"%i", line] cStringUsingEncoding:NSStringEncodingConversionAllowLossy],
-               [message cStringUsingEncoding:NSStringEncodingConversionAllowLossy]);
+               [message cStringUsingEncoding:NSStringEncodingConversionAllowLossy]
+		);
     }
     
     lastTracedMethod = methodName;
@@ -48,14 +45,20 @@ static NSString *lastTracedMethod = @"";
 	_tracesDisabled = YES;
 }
 
+
 /**!
  *  Chose the classes you want to see the traces from
  *  @param arr is an array of strings that represent the class names.
  *  Call this method as many times as you like.
  *  If you don't specify any all traces are sent to the output
  **/
+
 + (void)allowClasses:(NSArray *)arr {
-    [ALLOW_TRACES_FROM addObjectsFromArray:arr];
+	
+	if (allowedClasses == nil) {
+		allowedClasses = [NSMutableArray array];
+	}
+    [allowedClasses addObjectsFromArray:arr];
 }
 
 @end

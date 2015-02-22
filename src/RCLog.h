@@ -7,9 +7,20 @@
 
 #import <Foundation/Foundation.h>
 
+@interface RCLog : NSObject
+
++ (void)disableTraces;
++ (void)traceFile:(NSString *)file method:(NSString *)methodName line:(int)line message:(NSString *)message;
++ (void)allowClasses:(NSArray *)arr;
+
+@end
+
 #define RCLog(fmt, ... ) \
 do { \
-	[RCLog traceFile:[[NSString stringWithUTF8String:__FILE__] lastPathComponent] method:__FUNCTION__ line:__LINE__ message:[NSString stringWithFormat:(fmt), ##__VA_ARGS__]]; \
+	[RCLog traceFile:[[NSString stringWithUTF8String:__FILE__] lastPathComponent] \
+			  method:[NSString stringWithUTF8String:__FUNCTION__] \
+				line:__LINE__ \
+			 message:[NSString stringWithFormat:(fmt), ##__VA_ARGS__]]; \
 } while(0)
 
 #define RCLogO(obj) RCLog(@"%@", obj)
@@ -23,10 +34,3 @@ do { \
 #define RCLogSize(size) RCLog(@"%@", NSStringFromCGSize(size))
 #define RCLogThread() RCLog([NSThread isMainThread] ? @"Log from Main Thread":@"Log from Secondary Thread")
 #define RCLogTimestamp() RCLog(@"%@", [NSDate date])
-
-@interface RCLog : NSObject
-
-+ (void)disableTraces;
-+ (void)traceFile:(NSString *)file method:(NSString *)method line:(int)line message:(NSString *)message;
-
-@end
