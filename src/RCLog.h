@@ -34,3 +34,4 @@ do { \
 #define RCLogSize(size) RCLog(@"%@", NSStringFromCGSize(size))
 #define RCLogThread() RCLog([NSThread isMainThread] ? @"Log from Main Thread":@"Log from Secondary Thread")
 #define RCLogTimestamp() RCLog(@"%@", [NSDate date])
+#define RCLogMethod() RCLog(@"%@", [NSString stringWithUTF8String:__FUNCTION__])

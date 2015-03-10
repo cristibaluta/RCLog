@@ -19,7 +19,7 @@ static NSString *lastTracedMethod = nil;
         [self _traceFile:file method:methodName line:line message:message];
     }
     else for (NSString *c in allowedClasses) {
-        if ([c isEqualToString:file]) {
+        if ([c isEqualToString:[[file componentsSeparatedByString:@"."] firstObject]]) {
             [self _traceFile:file method:methodName line:line message:message];
         }
     }
@@ -27,7 +27,9 @@ static NSString *lastTracedMethod = nil;
 
 + (void)_traceFile:(NSString *)file method:(NSString *)methodName line:(int)line message:(NSString *)message {
     
-    NSString *prefix = (lastTracedMethod == nil || [lastTracedMethod isEqualToString:methodName]) ? @"" : @"\n";
+    NSString *prefix = ([lastTracedMethod isEqualToString:methodName])
+	? @""
+	: [NSString stringWithFormat:@"\n%@\n", methodName];
 	
     if (!_tracesDisabled) {
         printf ("%s%s:%s: %s\n",
@@ -48,7 +50,7 @@ static NSString *lastTracedMethod = nil;
 
 /**!
  *  Chose the classes you want to see the traces from
- *  @param arr is an array of strings that represent the class names.
+ *  @param arr is an array of strings that represent the file names.
  *  Call this method as many times as you like.
  *  If you don't specify any all traces are sent to the output
  **/
