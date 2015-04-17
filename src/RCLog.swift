@@ -16,6 +16,10 @@ func RCLogO (message:AnyObject?, file:String = __FILE__, line:Int = __LINE__) {
 	println("\(file.lastPathComponent):\(line): \(message)")
 }
 
+func RCLogErrorO (message:AnyObject?, file:String = __FILE__, line:Int = __LINE__) {
+	println("**ERROR: \(file.lastPathComponent):\(line): \(message)")
+}
+
 func RCLogI (message:Int?, file:String = __FILE__, line:Int = __LINE__) {
 	println("\(file.lastPathComponent):\(line): \(message)")
 }
