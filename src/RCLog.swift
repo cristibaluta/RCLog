@@ -97,5 +97,5 @@ func disableTraces() {
  *  If you don't specify any all traces are sent to the output
  **/
 func allowClasses(arr: Array<String>) {
-    allowedClasses.append("")
+    allowedClasses += arr
 }
