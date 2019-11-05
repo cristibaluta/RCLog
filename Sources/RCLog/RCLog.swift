@@ -12,30 +12,30 @@ private var tracesDisabled = false
 private var allowedClasses = [String]()
 private var lastTracedMethod = ""
 
-func RCLog (_ obj: Any, file: String = #file, line: Int = #line, function: String = #function) {
+public func RCLog (_ obj: Any, file: String = #file, line: Int = #line, function: String = #function) {
 	traceFile(file, methodName: function, line: line, message: "\(obj)")
 }
 
-func RCLogO (_ message: Any?, file: String = #file, line: Int = #line, function: String = #function) {
+public func RCLogO (_ message: Any?, file: String = #file, line: Int = #line, function: String = #function) {
 	traceFile(file, methodName: function, line: line, message: "\(String(describing: message))")
 }
 
-func RCLogErrorO (_ message: Any?, file: String = #file, line: Int = #line, function: String = #function) {
+public func RCLogErrorO (_ message: Any?, file: String = #file, line: Int = #line, function: String = #function) {
 	if message != nil {
 		print("**ERROR:")
 		traceFile(file, methodName: function, line: line, message: "\(String(describing: message))")
 	}
 }
 
-func RCLogI (_ message: Int?, file: String = #file, line: Int = #line, function: String = #function) {
+public func RCLogI (_ message: Int?, file: String = #file, line: Int = #line, function: String = #function) {
 	traceFile(file, methodName: function, line: line, message: "\(String(describing: message))")
 }
 
-func RCLogF (_ message: Float?, file: String = #file, line: Int = #line, function: String = #function) {
+public func RCLogF (_ message: Float?, file: String = #file, line: Int = #line, function: String = #function) {
 	traceFile(file, methodName: function, line: line, message: "\(String(describing: message))")
 }
 
-func RCLogRect (_ message: CGRect?, file: String = #file, line: Int = #line, function: String = #function) {
+public func RCLogRect (_ message: CGRect?, file: String = #file, line: Int = #line, function: String = #function) {
 	if message != nil {
 		traceFile(file, methodName: function, line: line, message: "CGRect \(String(describing: message))")
 	} else {
@@ -43,15 +43,15 @@ func RCLogRect (_ message: CGRect?, file: String = #file, line: Int = #line, fun
 	}
 }
 
-func RCLogSize (_ message: CGSize?, file: String = #file, line: Int = #line, function: String = #function) {
+public func RCLogSize (_ message: CGSize?, file: String = #file, line: Int = #line, function: String = #function) {
 	traceFile(file, methodName: function, line: line, message: "CGSize \(String(describing: message))")
 }
 
-func RCLogPoint (_ message: CGPoint?, file: String = #file, line: Int = #line, function: String = #function) {
+public func RCLogPoint (_ message: CGPoint?, file: String = #file, line: Int = #line, function: String = #function) {
 	traceFile(file, methodName: function, line: line, message: "CGPoint \(String(describing: message))")
 }
 
-func RCLogThread (_ file: String = #file, line: Int = #line, function: String = #function) {
+public func RCLogThread (_ file: String = #file, line: Int = #line, function: String = #function) {
 	let message = Thread.isMainThread ? "Log from Main Thread" : "Log from Secondary Thread"
 	print("\((file as NSString).lastPathComponent):\(line): \(message)")
 }
@@ -84,7 +84,7 @@ func RCLogThread (_ file: String = #file, line: Int = #line, function: String = 
     lastTracedMethod = methodName;
 }
 
-func disableTraces() {
+public func disableTraces() {
 	tracesDisabled = true
 }
 
@@ -94,6 +94,6 @@ func disableTraces() {
  *  Call this method as many times as you like.
  *  If you don't specify any all traces are sent to the output
  **/
-func allowClasses (_ arr: Array<String>) {
+public func allowClasses (_ arr: Array<String>) {
     allowedClasses += arr
 }
